@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Chat Widget</title>
+  </head>
+  <body>
+    <div id="chat-button" class="chat-button">
+      <i class="chat-icon">Chat</i>
+    </div>
+    <div id="chat-box" class="chat-box hidden">
+      <div class="chat-header">
+        <h4>Chat</h4>
+        <button id="close-button" class="close-button">&times;</button>
+      </div>
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-container">
+        <input id="chat-input" class="chat-input" type="text" placeholder="Type your message..." />
+        <button id="send-button" class="send-button">Send</button>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="chat_widget.js"></script>
+  </body>
+</html>
