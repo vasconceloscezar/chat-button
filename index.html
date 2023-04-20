@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>Chat Widget</title>
   </head>
-  <body>
+  <body id="chat-body">
     <div id="chat-button" class="chat-button">
       <i class="chat-icon">Chat</i>
     </div>
@@ -15,7 +15,42 @@
         <h4>Chat</h4>
         <button id="close-button" class="close-button">&times;</button>
       </div>
-      <div id="chat-messages" class="chat-messages"></div>
+      <div id="chat-messages" class="chat-messages">
+        <div class="chat-message message-incoming">
+          <div class="message-bubble">
+            <div class="message-content-container">
+              <div class="message-content">
+                Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem Mensagem
+                Mensagem
+              </div>
+            </div>
+            <div class="message-time-container">
+              <div class="message-time">22:82</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-message message-user">
+          <div class="message-bubble">
+            <div class="message-content-container">
+              <div class="message-content">Mensagem</div>
+            </div>
+            <div class="message-time-container">
+              <div class="message-time">22:82</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-message message-user">
+          <div class="message-bubble">
+            <div class="message-content-container">
+              <div class="message-content">Mensagem</div>
+            </div>
+            <div class="message-time-container">
+              <div class="message-time">22:82</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="chat-input-container">
         <input id="chat-input" class="chat-input" type="text" placeholder="Type your message..." />
         <button id="send-button" class="send-button">Send</button>

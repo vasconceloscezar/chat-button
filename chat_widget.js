@@ -28,17 +28,37 @@ function getClientID() {
 function formatDateToTime(date) {
   const hours = date.getHours();
   const minutes = date.getMinutes();
-
   const formattedHours = hours < 10 ? "0" + hours : hours;
   const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-
   const time = formattedHours + ":" + formattedMinutes;
   return time;
 }
 
+function makeMessageBubble(message) {
+  const { sender, content } = message;
+  var messageClass = sender === "user" ? "message-user" : "message-incoming";
+  if (!sender) messageClass = "message-error";
+  const date = new Date();
+  const time = formatDateToTime(date);
+
+  const element = `<div class="chat-message ${messageClass}">
+          <div class="message-bubble">
+            <div class="message-content-container">
+              <div class="message-content">
+                ${content}
+              </div>
+            </div>
+            <div class="message-time-container">
+              ${!sender ? "" : `<div class="message-time">${time}</div>`}
+            </div>
+          </div>
+        </div>
+        `;
+  return element;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const clientID = getClientID();
-
   const chatButton = document.getElementById("chat-button");
   const closeButton = document.getElementById("close-button");
   const chatBox = document.getElementById("chat-box");
@@ -60,7 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Handle connection errors
   socket.on("connect_error", (error) => {
     console.error("Connection error:", error);
-    messages.innerHTML += "<p>Connection error: " + error + "</p>";
+    //add only one error message
+    if (messages.innerHTML.includes("Server Error")) return;
+    messages.innerHTML += makeMessageBubble({ content: "Server Error" });
+    messages.scrollTop = messages.scrollHeight;
 
     // Inform the user about the connection error
   });
@@ -68,17 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Handle message events
   socket.on("message", (data) => {
     console.log("Message received:", data);
-    const messageClass = data.user === clientID ? "user-message" : "incoming-message";
-    const time = formatDateToTime(date);
-
-    const messageBubbleClass = "message-bubble";
     if (data.user !== clientID) {
-      messages.innerHTML += `<div class="chat-message ${messageClass}">
-                              <div class="${messageBubbleClass}">
-																<div class="message-content">${data.message}</div>
-																<div class="message-time">${time}</div>
-                              </div>
-                            </div>`;
+      messages.innerHTML += makeMessageBubble({ sender: "user", content: data.message });
+      messages.scrollTop = messages.scrollHeight;
     }
   });
 
@@ -93,15 +108,10 @@ document.addEventListener("DOMContentLoaded", function () {
         message,
         userData,
       });
-      const date = new Date();
-      const time = formatDateToTime(date);
-      const messageBubbleClass = "message-bubble";
-      messages.innerHTML += `<div class="chat-message user-message">
-                             	 <div class="${messageBubbleClass}">
-																<div class="message-content">${message}</div>
-																<div class="message-time">${time}</div>
-                              </div>
-                            </div>`;
+
+      messages.innerHTML += makeMessageBubble({ sender: "user", content: message });
+      messages.scrollTop = messages.scrollHeight;
+
       chatInput.value = "";
     }
   };
