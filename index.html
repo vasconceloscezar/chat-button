@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>Chat Widget</title>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
   </head>
   <body id="chat-body">
     <div id="chat-button" class="chat-button">
@@ -54,10 +55,9 @@
 
       <div class="chat-input-container">
         <input id="chat-input" class="chat-input" type="text" placeholder="Type your message..." />
-        <button id="send-button" class="hidden"><i id="send-button-icon" data-feather="send"></i></button>
+        <button id="send-button" class="send-button"><i id="send-button-icon" class="send-button-icon" data-feather="send"></i></button>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
     <script src="chat_widget.js"></script>
   </body>
 </html>
