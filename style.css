@@ -35,7 +35,59 @@
   font-size: 18px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
+.chat-button:hover{
+  transition: transform 0.16s linear 0s, opacity 0.08s linear 0s;
+  transform: scale(1.1);
+}
+.chat-button:active{
+  transition: transform 0.16s linear 0s, opacity 0.08s linear 0s;
+  transform: scale(0.9);
+}
 
+
+.chat-icon-open {
+  animation-fill-mode: forwards;
+  animation-name: rotate-icon;
+   animation-duration: 0.4s;
+  transform: rotate(90deg);
+}
+
+.chat-icon-closed {
+  /* Add animation to scale up when class is added */
+  animation-name: icon-scale-up;
+  animation-duration: 0.6s;
+  animation-fill-mode: backwards;
+
+}
+
+@keyframes icon-scale-up {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  33% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-icon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+
+.hiden{
+  display: none;
+}
 /* Chat box styles */
 .chat-box {
   position: fixed;
@@ -125,6 +177,7 @@
   flex-direction: column;
   justify-content: flex-start;
 }
+
 
 .chat-message {
   padding: 5px;

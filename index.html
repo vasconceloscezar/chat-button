@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <title>Chat Widget</title>
+    <script src="https://unpkg.com/feather-icons"></script>
   </head>
   <body id="chat-body">
     <div id="chat-button" class="chat-button">
-      <i class="chat-icon">Chat</i>
+      <i id="chat-button-icon" data-feather="message-circle" class="chat-icon-closed"></i>
     </div>
     <div id="chat-box" class="chat-box hidden">
       <div class="chat-header">
@@ -16,7 +17,7 @@
         <button id="close-button" class="close-button">&times;</button>
       </div>
       <div id="chat-messages" class="chat-messages">
-        <div class="chat-message message-incoming">
+        <!-- <div class="chat-message message-incoming">
           <div class="message-bubble">
             <div class="message-content-container">
               <div class="message-content">
@@ -48,12 +49,12 @@
               <div class="message-time">22:82</div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="chat-input-container">
         <input id="chat-input" class="chat-input" type="text" placeholder="Type your message..." />
-        <button id="send-button" class="send-button">Send</button>
+        <button id="send-button" class="hidden"><i id="send-button-icon" data-feather="send"></i></button>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
