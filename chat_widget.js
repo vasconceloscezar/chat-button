@@ -65,9 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const sendButton = document.getElementById("send-button");
   const chatInput = document.getElementById("chat-input");
   const messages = document.getElementById("chat-messages");
+  let isChatOpen = false;
 
   chatButton.addEventListener("click", () => {
     chatBox.classList.toggle("hidden");
+    if (!isChatOpen) {
+      chatButton.innerHTML = `<i class="chat-icon">Close</i>`;
+    } else {
+      chatButton.innerHTML = `<i class="chat-icon">Chat</i>`;
+    }
+    isChatOpen = !isChatOpen;
   });
 
   closeButton.addEventListener("click", () => {
