@@ -241,6 +241,8 @@ const chatWidgetCSS = `
   justify-content: space-between;
   border-radius: 10px;
   margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.38);
 }
 
 #czr-chat-widget-wrapper .chat-message .message-bubble {
@@ -256,8 +258,8 @@ const chatWidgetCSS = `
 
 `;
 
-function gatherUserData() {
-  const browser = {
+function gatherBrowserInfo() {
+  return {
     appName: navigator.appName,
     userAgent: navigator.userAgent,
     screenSize: { width: screen.width, height: screen.height },
@@ -265,25 +267,23 @@ function gatherUserData() {
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     referrer: document.referrer,
   };
-
-  const userData = {
-    browser,
-  };
-
-  return userData;
 }
 
-function getClientID(id) {
-  const websiteDomain = window.location.hostname;
-  const storedID = localStorage.getItem("chat_client_id");
-  if (storedID && storedID !== "undefined") {
-    return storedID;
-  } else {
-    const newID = id ? id + "-" + websiteDomain : Math.random().toString(36).substr(2, 9) + "-" + websiteDomain;
+function getClientInfo(socketId) {
+  localStorage.clear();
+  let clientInfo = {
+    id: localStorage.getItem("chat_client_id"),
+    browserInfo: gatherBrowserInfo(),
+    domain: window.location.hostname,
+  };
+  if (!clientInfo.id) {
+    const newID = socketId ? socketId + "-" + clientInfo.domain : Math.random().toString(36).substr(2, 9) + "-" + clientInfo.domain;
     console.log("New client ID:", newID);
     localStorage.setItem("chat_client_id", newID);
-    return newID;
+    clientInfo.id = newID;
   }
+
+  return clientInfo;
 }
 function formatDateToTime(date) {
   const hours = date.getHours();
@@ -323,7 +323,7 @@ function initializeChatWidget(socketServerURL) {
     const socket = io(socketServerURL);
     feather.replace();
 
-    const clientID = getClientID(socket.id);
+    const clientInfo = getClientInfo(socket.id);
     const chatButton = document.getElementById("chat-button");
     const closeButton = document.getElementById("close-button");
     const chatBox = document.getElementById("chat-box");
@@ -371,7 +371,7 @@ function initializeChatWidget(socketServerURL) {
     // Handle message events
     socket.on("message", (data) => {
       console.log("Message received:", data);
-      const isFromUser = data.user === clientID;
+      const isFromUser = data.user === clientInfo.id;
       console.log(isFromUser);
       const newMessage = {
         isFromUser,
@@ -382,16 +382,16 @@ function initializeChatWidget(socketServerURL) {
       messageHistory.push(newMessage);
     });
 
-    const userData = gatherUserData();
+    const userData = gatherBrowserInfo();
 
     const sendMessage = () => {
       const message = chatInput.value.trim();
       if (message) {
         // Emit the message event to the server
         socket.emit("message", {
-          user: clientID,
+          user: clientInfo.id,
           message,
-          // userData,
+          clientInfo: clientInfo,
         });
         chatInput.value = "";
       }
