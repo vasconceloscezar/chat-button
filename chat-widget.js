@@ -389,6 +389,7 @@ function initializeChatWidget(socketServerURL) {
       if (message) {
         // Emit the message event to the server
         socket.emit("message", {
+          userType: "user",
           user: clientInfo.id,
           message,
           clientInfo: clientInfo,
@@ -418,6 +419,7 @@ function loadScript(url, callback) {
 
   document.head.appendChild(script);
 }
+
 function loadScriptsSequentially(scripts, callback) {
   function loadNextScript(index) {
     if (index < scripts.length) {
